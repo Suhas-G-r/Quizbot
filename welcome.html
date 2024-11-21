@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - QuizChat Bot</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5dc; /* Light beige color */
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #f5f5dc, #e0e0b0); /* Lighter beige gradient */
+    }
+
+    .welcome-interface {
+      width: 100%;
+      max-width: 600px;
+      padding: 40px;
+      background-color: #fffaf0; /* Light beige color */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center;     /* Center vertically */
+      margin-bottom: 30px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      height: 120px;
+      width: 100%;
+      background-color: #4caf50;
+      overflow: hidden; /* Hides the text when it moves out of the box */
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #fff;
+      margin: 0;
+      z-index: 1;
+      animation: moveText 10s linear infinite; /* Animation for moving text */
+      white-space: nowrap; /* Prevent text from wrapping */
+    }
+
+    /* Animation for moving the header text */
+    @keyframes moveText {
+      0% {
+        transform: translateX(100%); /* Start off the right side */
+      }
+      50% {
+        transform: translateX(-100%); /* Move to the left side */
+      }
+      100% {
+        transform: translateX(100%); /* Return to the right side */
+      }
+    }
+
+    /* Welcome message styles */
+    .welcome-message {
+      margin-bottom: 30px;
+    }
+
+    .welcome-message h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .welcome-message p {
+      font-size: 18px;
+      color: #777;
+    }
+
+    /* Button Styling */
+    .chat-button {
+      width: 100%;
+    }
+
+    .chat-button button {
+      width: 100%;
+      padding: 18px;
+      background-color: #FF5733;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .chat-button button:hover {
+      background-color: #e04e2a;
+      transform: scale(1.05);
+    }
+
+    .chat-button button:active {
+      background-color: #d2451b;
+    }
+
+    /* Footer or additional info */
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .footer a {
+      color: #FF5733;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-interface">
+    <div class="header">
+      <h1>QuizChat Bot</h1>
+    </div>
+    <div class="welcome-message">
+      <h2>Hi, Welcome!</h2>
+      <p>I am a Chat Bot. Ready to take a quiz?</p>
+    </div>
+    <div class="chat-button">
+      <button onclick="location.href='selectDomain.html'">Go to Chat Bot</button>
+    </div>
+    <div class="footer">
+      <p>Need help? <a href="#">Contact us</a></p>
+    </div>
+  </div>
+</body>
+</html>

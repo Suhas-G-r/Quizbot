@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quizzes - Quiz Bot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-800">
+    <!-- Navbar -->
+    <nav class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md bg-blue-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 py-4 md:top-6 md:rounded-3xl lg:max-w-screen-lg">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-bold pl-10">Quiz Bot</a>
+        <div>
+          <a href="about.html" class="mx-4 hover:underline">About</a>
+          <a href="quizzes.html" class="mx-4 hover:underline">Quizzes</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Quizzes Section -->
+    <section class="py-32">
+      <div class="container mx-auto text-center">
+        <h1 class="text-5xl font-bold mb-4">Choose a Quiz</h1>
+        <p class="text-xl mb-6">Select a quiz to start testing your knowledge.</p>
+        
+        <!-- Quiz Categories -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Science Quiz -->
+          <div class="bg-blue-100 p-6 rounded-lg shadow-lg hover:bg-blue-200 transition duration-200">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Science Quiz</h3>
+            <p class="text-lg mb-4">Test your knowledge in subjects like Physics, Chemistry, Biology, and more.</p>
+          </div>
+          
+          <!-- History Quiz -->
+          <div class="bg-blue-100 p-6 rounded-lg shadow-lg hover:bg-blue-200 transition duration-200">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-4">History Quiz</h3>
+            <p class="text-lg mb-4">Challenge yourself with questions about major historical events and figures.</p>
+          </div>
+
+          <!-- Geography Quiz -->
+          <div class="bg-blue-100 p-6 rounded-lg shadow-lg hover:bg-blue-200 transition duration-200">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Geography Quiz</h3>
+            <p class="text-lg mb-4">Explore the world with questions about countries, capitals, landmarks, and more.</p>
+          </div>
+
+          <!-- Literature Quiz -->
+          <div class="bg-blue-100 p-6 rounded-lg shadow-lg hover:bg-blue-200 transition duration-200">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Literature Quiz</h3>
+            <p class="text-lg mb-4">Test your knowledge on famous authors, books, and literary terms.</p>
+          </div>
+
+          <!-- Math Quiz -->
+          <div class="bg-blue-100 p-6 rounded-lg shadow-lg hover:bg-blue-200 transition duration-200">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Math Quiz</h3>
+            <p class="text-lg mb-4">Sharpen your math skills with questions on algebra, geometry, and calculus.</p>
+          </div>
+
+          <!-- Technology Quiz -->
+          <div class="bg-blue-100 p-6 rounded-lg shadow-lg hover:bg-blue-200 transition duration-200">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-4">Technology Quiz</h3>
+            <p class="text-lg mb-4">Test your knowledge on the latest in tech, gadgets, and computer science.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-800 text-white">
+      <div class="container mx-auto text-center">
+        <p class="text-gray-400">© 2024 Quiz Bot. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

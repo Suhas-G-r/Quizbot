@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat - QuizChat Bot</title>
+  <style>
+    /* Your existing styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .chat-interface {
+      width: 500px;
+      max-width: 100%;
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 650px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .robot-logo {
+      width: 60px;
+      height: 60px;
+      margin-right: 15px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #4CAF50;
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+      overflow-y: auto;
+    }
+
+    .chat-log {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
+    .message-bot, .message-user {
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 85%;
+    }
+
+    .message-bot {
+      background-color: #f1f1f1;
+      color: #333;
+      margin-left: 15px;
+    }
+
+    .message-user {
+      background-color: #4CAF50;
+      color: white;
+      margin-right: 15px;
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      width: calc(100% - 120px);
+      padding: 15px;
+      font-size: 1.2rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+
+    .send-button, .restart-button, .domain-button, .exit-button {
+      padding: 15px 25px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    .send-button:hover, .restart-button:hover, .domain-button:hover, .exit-button:hover {
+      background-color: #45a049;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .exit-button {
+      background-color: #f44336;
+    }
+
+    .exit-button:hover {
+      background-color: #e53935;
+    }
+
+    .options-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-button {
+      padding: 10px;
+      background-color: #f1f1f1;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .option-button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-interface">
+    <div class="header">
+      <img src="https://m.media-amazon.com/images/I/51DBd7O6GEL._AC_UF1000,1000_QL80_.jpg" alt="Robot Logo" class="robot-logo">
+      <h1>QuizChat Bot</h1>
+    </div>
+    <div class="chat-container">
+      <div id="chat-log" class="chat-log"></div>
+      <div id="options-container" class="options-container"></div>
+    </div>
+
+    <div class="buttons-container">
+      <button id="restart-button" class="restart-button">Restart</button>
+     <button id="exit-button" class="exit-button">Exit</button>
+      <button id="domain-button" class="domain-button" onclick="window.location.href='selectDomain.html'">Choose Domain</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("exit-button").addEventListener("click", function() {
+      window.location.href = 'index.html'; // Redirect to index.html
+    });
+    const selectedDomain = localStorage.getItem('selectedDomain');
+    let questions = getQuestionsByDomain(selectedDomain);
+
+    // Function to shuffle questions
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
+      }
+      return arr;
+    }
+
+    // Limit the number of questions to 10 and shuffle them
+    let shuffledQuestions = shuffle(questions).slice(0, 10);
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function displayMessage(message, isBot = true) {
+      const chatLog = document.getElementById("chat-log");
+      const messageElement = document.createElement("div");
+      messageElement.classList.add(isBot ? "message-bot" : "message-user");
+      messageElement.innerText = message;
+      chatLog.appendChild(messageElement);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function getQuestionsByDomain(domain) {
+      const questionsByDomain = {
+        math: [
+          { question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: "4" },
+          { question: "What is 5 * 3?", options: ["12", "15", "18", "20"], answer: "15" },
+          { question: "What is 10 - 4?", options: ["6", "5", "7", "8"], answer: "6" },
+          { question: "What is 9 / 3?", options: ["1", "2", "3", "4"], answer: "3" },
+          { question: "What is 6 * 7?", options: ["42", "35", "36", "49"], answer: "42" },
+          { question: "What is 100 / 5?", options: ["15", "20", "25", "30"], answer: "20" },
+          { question: "What is 50 + 50?", options: ["100", "90", "110", "120"], answer: "100" },
+          { question: "What is 8 * 8?", options: ["60", "64", "70", "72"], answer: "64" },
+          { question: "What is 15 - 5?", options: ["10", "15", "5", "8"], answer: "10" },
+          { question: "What is 12 + 18?", options: ["28", "30", "32", "34"], answer: "30" }
+        ],
+        science: [
+          { question: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2", "H2"], answer: "H2O" },
+          { question: "Who proposed the theory of relativity?", options: ["Newton", "Einstein", "Galileo", "Tesla"], answer: "Einstein" },
+          { question: "What is the chemical symbol for gold?", options: ["Au", "Ag", "Pb", "Fe"], answer: "Au" },
+          { question: "What gas do plants absorb for photosynthesis?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], answer: "Carbon Dioxide" },
+          { question: "What is the atomic number of carbon?", options: ["6", "8", "12", "14"], answer: "6" },
+          { question: "What is the primary gas in Earth's atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Helium"], answer: "Nitrogen" },
+          { question: "Who discovered gravity?", options: ["Einstein", "Newton", "Darwin", "Kepler"], answer: "Newton" },
+          { question: "What is the main function of the heart?", options: ["Pumping blood", "Pumping oxygen", "Filtering waste", "Producing hormones"], answer: "Pumping blood" },
+          { question: "What planet is known as the Red Planet?", options: ["Mars", "Venus", "Earth", "Jupiter"], answer: "Mars" },
+          { question: "What is the powerhouse of the cell?", options: ["Nucleus", "Mitochondria", "Ribosomes", "Golgi apparatus"], answer: "Mitochondria" }
+        ],
+        history: [
+          { question: "Who was the first president of the United States?", options: ["Abraham Lincoln", "George Washington", "Thomas Jefferson", "John Adams"], answer: "George Washington" },
+          { question: "In which year did World War I start?", options: ["1912", "1914", "1916", "1918"], answer: "1914" },
+          { question: "Who was the first emperor of China?", options: ["Qin Shi Huang", "Kublai Khan", "Genghis Khan", "Wu Zetian"], answer: "Qin Shi Huang" },
+          { question: "Who discovered America?", options: ["Christopher Columbus", "Vasco da Gama", "Marco Polo", "Ferdinand Magellan"], answer: "Christopher Columbus" },
+          { question: "What year did the Titanic sink?", options: ["1910", "1912", "1920", "1930"], answer: "1912" },
+          { question: "Who was the famous queen of ancient Egypt?", options: ["Cleopatra", "Nefertiti", "Hatshepsut", "Elizabeth I"], answer: "Cleopatra" },
+          { question: "Which war was fought between the North and South in the United States?", options: ["Revolutionary War", "Civil War", "World War I", "World War II"], answer: "Civil War" },
+          { question: "Who was the leader of the Soviet Union during World War II?", options: ["Joseph Stalin", "Vladimir Lenin", "Mikhail Gorbachev", "Leon Trotsky"], answer: "Joseph Stalin" },
+          { question: "Who invented the telephone?", options: ["Thomas Edison", "Alexander Graham Bell", "Nikola Tesla", "Isaac Newton"], answer: "Alexander Graham Bell" },
+          { question: "In which year did the Berlin Wall fall?", options: ["1987", "1989", "1990", "1992"], answer: "1989" }
+        ],
+        geography: [
+          { question: "What is the capital of France?", options: ["Rome", "Paris", "Berlin", "Madrid"], answer: "Paris" },
+          { question: "Which continent is the Sahara Desert located on?", options: ["Africa", "Asia", "Australia", "America"], answer: "Africa" },
+          { question: "What is the longest river in the world?", options: ["Amazon", "Nile", "Yangtze", "Mississippi"], answer: "Nile" },
+          { question: "Which country has the most population?", options: ["USA", "India", "China", "Russia"], answer: "China" },
+          { question: "Which ocean is the largest?", options: ["Atlantic", "Indian", "Arctic", "Pacific"], answer: "Pacific" },
+          { question: "Which country is home to the Great Barrier Reef?", options: ["USA", "Australia", "Canada", "Brazil"], answer: "Australia" },
+          { question: "What is the smallest country in the world?", options: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"], answer: "Vatican City" },
+          { question: "Which desert is the largest in the world?", options: ["Sahara", "Kalahari", "Gobi", "Atacama"], answer: "Sahara" },
+          { question: "Which country is known as the Land of the Rising Sun?", options: ["China", "Japan", "South Korea", "Vietnam"], answer: "Japan" },
+          { question: "What is the capital of Canada?", options: ["Toronto", "Ottawa", "Vancouver", "Montreal"], answer: "Ottawa" }
+        ],
+        literature: [
+          { question: "Who wrote 'Romeo and Juliet'?", options: ["Shakespeare", "Dickens", "Hemingway", "Austen"], answer: "Shakespeare" },
+          { question: "Who wrote 'The Great Gatsby'?", options: ["Fitzgerald", "Dickens", "Orwell", "Hemingway"], answer: "Fitzgerald" },
+          { question: "What is the title of the first Harry Potter book?", options: ["The Philosopher's Stone", "The Chamber of Secrets", "The Prisoner of Azkaban", "The Goblet of Fire"], answer: "The Philosopher's Stone" },
+          { question: "Who wrote 'Pride and Prejudice'?", options: ["Jane Austen", "Charlotte Bronte", "Emily Bronte", "Virginia Woolf"], answer: "Jane Austen" },
+          { question: "Who wrote '1984'?", options: ["Orwell", "Austen", "Dickens", "Tolkien"], answer: "Orwell" },
+          { question: "Who wrote 'Moby Dick'?", options: ["Hemingway", "Fitzgerald", "Melville", "Dickens"], answer: "Melville" },
+          { question: "Which book features the character Sherlock Holmes?", options: ["The Hobbit", "Dracula", "The Adventures of Sherlock Holmes", "Pride and Prejudice"], answer: "The Adventures of Sherlock Holmes" },
+          { question: "Who wrote 'To Kill a Mockingbird'?", options: ["Harper Lee", "J.K. Rowling", "Mark Twain", "Ernest Hemingway"], answer: "Harper Lee" },
+          { question: "Who wrote 'The Catcher in the Rye'?", options: ["Salinger", "Fitzgerald", "Orwell", "Hemingway"], answer: "Salinger" },
+          { question: "Who wrote 'The Lord of the Rings'?", options: ["Tolkien", "C.S. Lewis", "George R.R. Martin", "J.K. Rowling"], answer: "Tolkien" }
+        ],
+        technology: [
+          { question: "Who is known as the father of the computer?", options: ["Charles Babbage", "Alan Turing", "Bill Gates", "Steve Jobs"], answer: "Charles Babbage" },
+          { question: "What does 'HTTP' stand for?", options: ["HyperText Transfer Protocol", "HyperText Transport Protocol", "HyperText Transfer Program", "Hyperlink Transport Protocol"], answer: "HyperText Transfer Protocol" },
+          { question: "Who invented the first telephone?", options: ["Nikola Tesla", "Thomas Edison", "Alexander Graham Bell", "Benjamin Franklin"], answer: "Alexander Graham Bell" },
+          { question: "What year was the first iPhone released?", options: ["2005", "2006", "2007", "2008"], answer: "2007" },
+          { question: "Which company developed the first personal computer?", options: ["Apple", "IBM", "Microsoft", "Intel"], answer: "IBM" },
+          { question: "What is the name of the first artificial satellite?", options: ["Sputnik 1", "Apollo 11", "Explorer 1", "Vanguard 1"], answer: "Sputnik 1" },
+          { question: "What does 'Wi-Fi' stand for?", options: ["Wireless Fidelity", "Wireless Internet", "Wide Frequency", "World Frequency"], answer: "Wireless Fidelity" },
+          { question: "What programming language is used for Android development?", options: ["Java", "Python", "C++", "Swift"], answer: "Java" },
+          { question: "What does 'URL' stand for?", options: ["Uniform Resource Locator", "Universal Resource Locator", "Uniform Rendering Locator", "Universal Resource Locator"], answer: "Uniform Resource Locator" },
+          { question: "What does 'CPU' stand for?", options: ["Central Processing Unit", "Central Program Unit", "Computer Power Unit", "Central Processing Unit"], answer: "Central Processing Unit" }
+        ]
+      };
+
+      return questionsByDomain[domain] || [];
+    }
+
+    function displayOptions(options) {
+      const optionsContainer = document.getElementById("options-container");
+      optionsContainer.innerHTML = ""; // Clear previous options
+
+      options.forEach(option => {
+        const button = document.createElement("button");
+        button.classList.add("option-button");
+        button.innerText = option;
+        button.addEventListener("click", () => checkAnswer(option));
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    function checkAnswer(userAnswer) {
+      const correctAnswer = shuffledQuestions[currentQuestion].answer;
+      if (userAnswer === correctAnswer) {
+        score++;
+        displayMessage("Correct!", false);
+      } else {
+        displayMessage("Wrong answer. The correct answer was: " + correctAnswer, false);
+      }
+      currentQuestion++;
+      if (currentQuestion < shuffledQuestions.length) {
+        setTimeout(() => {
+          askQuestion();
+        }, 1000);
+      } else {
+        displayMessage("Quiz Over! Your score is " + score + " out of " + shuffledQuestions.length, false);
+        document.getElementById('options-container').innerHTML = ""; // Clear options
+      }
+    }
+
+    function askQuestion() {
+      const question = shuffledQuestions[currentQuestion].question;
+      const options = shuffledQuestions[currentQuestion].options;
+      displayMessage(question);
+      displayOptions(options);
+    }
+
+    // Restart quiz function
+   document.getElementById("restart-button").addEventListener("click", function() {
+      currentQuestion = 0;
+      score = 0;
+
+      shuffledQuestions = shuffle(questions).slice(0, 10);
+
+      const chatLog = document.getElementById("chat-log");
+      chatLog.innerHTML = "";
+
+      const optionsContainer = document.getElementById("options-container");
+      optionsContainer.innerHTML = "";
+
+      askQuestion();
+    });
+
+
+    // Start the quiz
+    askQuestion();
+  </script>
+</body>
+</html>

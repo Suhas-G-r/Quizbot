@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Domain - QuizChat Bot</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5dc; /* Light beige color */
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #f5f5dc, #e0e0b0); /* Lighter beige gradient */
+    }
+
+    .domain-interface {
+      width: 100%;
+      max-width: 500px;
+      padding: 40px;
+      background-color: #fffaf0; /* Light beige color */
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header {
+      height: 120px;
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center;     /* Center vertically */
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden; /* Hides the text when it moves out of the box */
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+      margin: 0;
+      animation: moveText 10s linear infinite; /* Animation for moving text */
+      white-space: nowrap; /* Prevent text from wrapping */
+    }
+
+    /* Animation for moving the header text */
+    @keyframes moveText {
+      0% {
+        transform: translateX(100%); /* Start off the right side */
+      }
+      50% {
+        transform: translateX(-100%); /* Move to the left side */
+      }
+      100% {
+        transform: translateX(100%); /* Return to the right side */
+      }
+    }
+
+    /* Domain Selection Section */
+    .domain-selection {
+      margin-bottom: 40px;
+    }
+
+    .domain-selection h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+
+    .domain-selection h2:hover {
+      color: #FF5733;
+    }
+
+    select {
+      padding: 12px;
+      font-size: 16px;
+      width: 100%;
+      margin: 15px 0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      background-color: #fafafa;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    select:focus {
+      border-color: #FF5733;
+      background-color: #fff6f1;
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      background-color: #FF5733;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e04e2a;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      background-color: #d2451b;
+    }
+
+    /* Footer or Additional Info */
+    .footer {
+      margin-top: 25px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .footer a {
+      color: #FF5733;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #e04e2a;
+    }
+
+    /* Keyframe animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="domain-interface">
+    <div class="header">
+      <h1>QuizChat Bot</h1>
+    </div>
+    <div class="domain-selection">
+      <h2>Select a Domain to Quiz:</h2>
+      <form id="domain-form">
+        <select id="domain-select" required>
+          <option value="math">Math</option>
+          <option value="science">Science</option>
+          <option value="history">History</option>
+          <option value="technology">Technology</option>
+          <option value="literature">Literature</option>
+        </select>
+        <button type="submit">Start Quiz</button>
+      </form>
+    </div>
+    <div class="footer">
+      <p>Need assistance? <a href="#">Contact us</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('domain-form').addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent form submission
+      const domain = document.getElementById('domain-select').value;
+      localStorage.setItem('selectedDomain', domain);  // Save selected domain
+      window.location.href = "chat.html";  // Go to the chat page
+    });
+  </script>
+</body>
+</html>
